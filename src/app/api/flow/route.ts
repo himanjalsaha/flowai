@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
-import { log } from 'console';
+
 
 // Initialize Groq SDK with your API key
 const groq = new Groq({
