@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       console.log(parsedResponse);
       
     } catch (parseError) {
-      return NextResponse.json({ error: `Failed to parse AI response as JSON.` }, { status: 500 });
+      return NextResponse.json({ error: `Failed to parse AI response as JSON.${parseError}` }, { status: 500 });
     }
 
     // Ensure the response structure is correct
