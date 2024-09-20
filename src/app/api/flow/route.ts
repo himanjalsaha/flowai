@@ -14,20 +14,19 @@ export async function POST(req: Request) {
     if (!message) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
-    
     const contextMessage = `${characterPrompt}\n\nUser: ${message}\n\nBased on the input provided, generate flowchart content in a structured JSON format. Ensure the following details:
 
-    1. **Nodes**: Each node should have an ID, position ("x" and "y" coordinates), and label that describes the node's content or purpose.
+    1. **Nodes**: Each node should have an ID, position ("x" and "y" coordinates), label that describes the node's content or purpose, and an image URL.
     2. **Connections**: Each node can connect to one or more other nodes. Specify these connections by listing source and target node IDs.
     3. **Connection Types**: The connection type can be "smooth", "straight", or "step" for indicating how the edges are drawn between nodes.
     
     ### Format Example:
     {
       "nodes": [
-        { "id": "1", "position": { "x": 0, "y": 0 }, "data": { "label": "Start" } },
-        { "id": "2", "position": { "x": 200, "y": 0 }, "data": { "label": "Decision" } },
-        { "id": "3", "position": { "x": 400, "y": 100 }, "data": { "label": "Outcome A" } },
-        { "id": "4", "position": { "x": 400, "y": -100 }, "data": { "label": "Outcome B" } }
+        { "id": "1", "position": { "x": 0, "y": 0 }, "data": { "label": "Start", "image": "https://example.com/start-icon.png" } },
+        { "id": "2", "position": { "x": 200, "y": 0 }, "data": { "label": "Decision", "image": "https://example.com/decision-icon.png" } },
+        { "id": "3", "position": { "x": 400, "y": 100 }, "data": { "label": "Outcome A", "image": "https://example.com/outcome-a-icon.png" } },
+        { "id": "4", "position": { "x": 400, "y": -100 }, "data": { "label": "Outcome B", "image": "https://example.com/outcome-b-icon.png" } }
       ],
       "connections": [
         { "from": "1", "to": ["2"], "type": "smooth" },
@@ -39,7 +38,9 @@ export async function POST(req: Request) {
     - Ensure the positions of the nodes are logically spaced out (e.g., starting from position {x: 0, y: 0} and expanding in x/y directions for clarity).
     - Nodes can be decision points, actions, or results, based on the context of the input message.
     - Use appropriate labels to reflect the content.
-    - Generate valid JSON only, with no extra text.`;
+    - Include a relevant image URL for each node. The image should represent the node's purpose or content.
+    - Generate valid JSON only, with no extra text.
+    - use valid urls  for image like https://cdn-icons-png.flaticon.com`;
     
 
     console.log(contextMessage);
@@ -64,7 +65,7 @@ export async function POST(req: Request) {
       console.log(parsedResponse);
       
     } catch (parseError) {
-      return NextResponse.json({ error: `Failed to parse AI response as JSON.${parseError}` }, { status: 500 });
+      return NextResponse.json({ error: `Failed to parse AI response as JSON.` }, { status: 500 });
     }
 
     // Ensure the response structure is correct
