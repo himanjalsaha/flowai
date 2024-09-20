@@ -9,18 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@xyflow/react": "^12.3.0",
+    "axios": "^1.7.7",
+    "groq-sdk": "^0.7.0",
+    "lucide-react": "^0.441.0",
+    "next": "14.2.12",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.12"
+    "react-flow-renderer": "^10.3.17",
+    "reactflow": "^11.11.4"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.12",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.12"
+    "typescript": "^5"
   }
 }
