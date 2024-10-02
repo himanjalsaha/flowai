@@ -3,7 +3,7 @@ import Groq from 'groq-sdk';
 
 // Initialize Groq SDK with your API key
 const groq = new Groq({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 export async function POST(req: Request) {
