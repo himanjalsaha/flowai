@@ -39,7 +39,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 0, "y": 200 },
       "data": {
         "label": "Start",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828490.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828490.png",
+        "description": "Begin the process by initiating the workflow."
       }
     },
     {
@@ -47,7 +48,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 200, "y": 200 },
       "data": {
         "label": "Input Data",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828743.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828743.png",
+        "description": "Collect and input the required data for processing."
       }
     },
     {
@@ -55,7 +57,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 400, "y": 200 },
       "data": {
         "label": "Validate Data",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "description": "Check the input data for accuracy and completeness."
       }
     },
     {
@@ -63,7 +66,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 600, "y": 200 },
       "data": {
         "label": "Data Valid?",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828940.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828940.png",
+        "description": "Determine if the data meets the required criteria."
       }
     },
     {
@@ -71,7 +75,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 800, "y": 100 },
       "data": {
         "label": "Process Data",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828743.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828743.png",
+        "description": "Perform necessary operations on the valid data."
       }
     },
     {
@@ -79,7 +84,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 800, "y": 300 },
       "data": {
         "label": "Error Handling",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828843.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828843.png",
+        "description": "Address and correct any errors found in the data."
       }
     },
     {
@@ -87,7 +93,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 1000, "y": 200 },
       "data": {
         "label": "Generate Report",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828427.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828427.png",
+        "description": "Create a report based on the processed data."
       }
     },
     {
@@ -95,7 +102,8 @@ Example JSON structure with more nodes and connections:
       "position": { "x": 1200, "y": 200 },
       "data": {
         "label": "End",
-        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
+        "image": "https://cdn-icons-png.flaticon.com/512/1828/1828778.png",
+        "description": "Conclude the workflow and review the results."
       }
     }
   ],
@@ -116,7 +124,7 @@ Ensure your response adheres to this structure, includes at least 6-8 nodes, and
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: contextMessage }],
-      model: 'llama-3.1-70b-versatile',
+      model: 'llama-3.2-3b-preview',
       temperature: 0.4, // Further reduced temperature for more consistent output
       max_tokens: 2048, // Increased max tokens to allow for more complex responses
       top_p: 1,

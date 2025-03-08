@@ -14,33 +14,56 @@ import {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import axios from 'axios'
-import { Send, Loader2, AlertCircle } from 'lucide-react'
+import { Send, Loader2, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react'
 
 const CustomNode = memo(({ data }) => {
-  return (
-    <div className="px-4 py-2 shadow-md rounded-md bg-black border border-gray-700">
-      <div className="flex items-center">
-        {data.image ? (
-          <img
-            src={data.image}
-            alt=""
-            className="rounded-full w-10 h-10 mr-2"
-          />
-        ) : (
-          <div className="w-10 h-10 mr-2 bg-gray-700 rounded-full"></div>
-        )}
-        <div className="text-lg font-bold text-white">{data.label}</div>
-      </div>
-      {data.description && (
-        <div className="mt-2 text-sm text-gray-300">{data.description}</div>
-      )}
-      <Handle type="target" position={Position.Top} className="w-16 !bg-teal-500" />
-      <Handle type="source" position={Position.Bottom} className="w-16 !bg-teal-500" />
-    </div>
-  )
-})
+  const [isOpen, setIsOpen] = useState(false);
 
-CustomNode.displayName = 'CustomNode'
+  return (
+    <div className="w-64 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+      <div className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            {data.image ? (
+              <img
+                src={data.image}
+                alt=""
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-gray-200"></div>
+            )}
+            <div className="text-lg font-semibold text-gray-800">{data.label}</div>
+          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-1 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none"
+          >
+            {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+          </button>
+        </div>
+        {isOpen && (
+          <div className="mt-3 space-y-2">
+            {data.description && (
+              <div className="text-sm text-gray-600">
+                {data.description}
+              </div>
+            )}
+            {data.additionalDetails && (
+              <div className="text-sm text-gray-600">
+                <span className="font-medium">Details:</span> {data.additionalDetails}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <Handle type="target" position={Position.Top} className="!bg-teal-500 !w-2 !h-2" />
+      <Handle type="source" position={Position.Bottom} className="!bg-teal-500 !w-2 !h-2" />
+    </div>
+  );
+});
+
+CustomNode.displayName = 'CustomNode';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -66,7 +89,7 @@ export default function Component() {
           type: 'custom',
           data: {
             ...node.data,
-            image: node.data.image || null, // Use the image URL from the API or null if not provided
+            image: node.data.image || null,
             label: node.data.label || node.id,
             description: node.data.description || null,
           },
@@ -91,7 +114,6 @@ export default function Component() {
         source: connection.from,
         target: targetId,
         type: 'smoothstep',
-        animated: true,
         style: { stroke: '#4fd1c5', strokeWidth: 2 },
       }))
     )
@@ -103,19 +125,26 @@ export default function Component() {
   )
 
   return (
-    <div className="flex flex-col h-screen w-full bg-gray-900 text-white p-4">
-      <div className="flex items-center space-x-2 mb-4">
+    <div className="flex flex-col h-screen w-full bg-gray-50 text-gray-900 p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">Flowchart Generator</h1>
+        <p className="text-gray-500">Visualize your data with interactive flowcharts.</p>
+      </div>
+
+      {/* Input and Generate Button */}
+      <div className="flex items-center space-x-4 mb-6">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Enter your message"
-          className="flex-1 p-2 text-lg bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-white placeholder-gray-500"
+          className="flex-1 p-3 text-base bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
         />
         <button
           onClick={() => fetchFlowchartData(input)}
           disabled={isLoading}
-          className="p-2 text-lg flex items-center justify-center space-x-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed w-32 h-10"
+          className="p-3 text-base flex items-center justify-center space-x-2 bg-teal-600 text-white rounded-lg shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <Loader2 className="animate-spin h-5 w-5" />
@@ -126,16 +155,18 @@ export default function Component() {
         </button>
       </div>
 
+      {/* Error Message */}
       {error && (
-        <div className="mb-4 p-4 bg-red-900 border border-red-700 rounded-md flex items-center space-x-2">
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3">
           <AlertCircle className="h-5 w-5 text-red-500" />
-          <span className="text-red-100">{error}</span>
+          <span className="text-red-600">{error}</span>
         </div>
       )}
 
-      <div className="flex-1 bg-gray-800 rounded-lg p-2 relative">
+      {/* Flowchart Container */}
+      <div className="flex-1 bg-white rounded-lg shadow-lg border border-gray-200 p-4 relative">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900/50 z-10 rounded-lg">
+          <div className="absolute inset-0 flex items-center justify-center bg-white/90 z-10 rounded-lg">
             <Loader2 className="h-8 w-8 animate-spin text-teal-500" />
           </div>
         )}
@@ -146,16 +177,15 @@ export default function Component() {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           nodeTypes={nodeTypes}
-          className="bg-gray-800"
           fitView
         >
-          <Controls className="bg-gray-700 border border-gray-600 rounded-md" />
-          <MiniMap 
-            className="bg-gray-700 border border-gray-600 rounded-md"
-            nodeColor={() => '#000000'}
-            maskColor="rgba(0, 0, 0, 0.5)"
+          <Controls className="bg-white border border-gray-200 rounded-lg shadow-sm" />
+          <MiniMap
+            className="bg-white border border-gray-200 rounded-lg shadow-sm"
+            nodeColor={() => '#4fd1c5'}
+            maskColor="rgba(255, 255, 255, 0.5)"
           />
-          <Background variant="dots" gap={12} size={1} color="rgba(255, 255, 255, 0.2)" />
+          <Background variant="dots" gap={16} size={1} color="rgba(0, 0, 0, 0.1)" />
         </ReactFlow>
       </div>
     </div>
