@@ -124,7 +124,7 @@ Ensure your response adheres to this structure, includes at least 6-8 nodes, and
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: 'user', content: contextMessage }],
-      model: 'llama-3.2-3b-preview',
+      model: 'llama3-70b-8192',
       temperature: 0.4, // Further reduced temperature for more consistent output
       max_tokens: 2048, // Increased max tokens to allow for more complex responses
       top_p: 1,
